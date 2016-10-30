@@ -12,15 +12,21 @@ import java.util.EmptyStackException;
  * @author Yue
  */
 public class StackListaLigadaGeneralizado<Item>{
-    private Nodo head=null;
+    private Nodo head;
+    private int i;
     
     private class Nodo{
         Item item;
         Nodo next;
     }
 
-    public StackListaLigadaGeneralizado() {
-        this.head = null;
+    public StackListaLigadaGeneralizado(StackListaLigadaGeneralizado s) { //Constructor copia
+        this.head=s.head;
+    }
+    
+    public StackListaLigadaGeneralizado(){
+        head=null;
+        i=0;
     }
     
     public void push(Item item){
@@ -28,6 +34,7 @@ public class StackListaLigadaGeneralizado<Item>{
         head=new Nodo();
         head.item=item;
         head.next=oldNodo;
+        i++;
     }
     
     public Item pop() throws EmptyStackException{
@@ -35,6 +42,7 @@ public class StackListaLigadaGeneralizado<Item>{
             throw new EmptyStackException();
         Item item=head.item;
         head=head.next;
+        i--;
         return item;
     }
     
@@ -54,4 +62,7 @@ public class StackListaLigadaGeneralizado<Item>{
         System.out.print("]");
     }
     
+    public int getTamano(){
+        return i;
+    }
 }
