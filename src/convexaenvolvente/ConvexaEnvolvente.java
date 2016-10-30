@@ -62,15 +62,15 @@ public class ConvexaEnvolvente {
     public static void main(String[] args) {
         Point[] points;
         points = new Point[9];
-        points[0]=new Point(403,144);
-        points[1]=new Point(398,202);
-        points[2]=new Point(336,250);
-        points[3]=new Point(278,218);
-        points[4]=new Point(321,99);
-        points[5]=new Point(323,172);
-        points[6]=new Point(145,213);
-        points[7]=new Point(204,140);
-        points[8]=new Point(215,242);
+        points[0]=new Point(1,2);
+        points[1]=new Point(3,5);
+        points[2]=new Point(10,20);
+        points[3]=new Point(40,50);
+        points[4]=new Point(85,2);
+        points[5]=new Point(8,5);
+        points[6]=new Point(5,9);
+        points[7]=new Point(3,3);
+        points[8]=new Point(4,10);
         ConvexaEnvolvente ce=new ConvexaEnvolvente();
         points=ce.convexHull(points);
         for(Point p:points)
