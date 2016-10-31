@@ -38,7 +38,8 @@ public class Point implements Comparable{
         double xabs=x-point.getX();
         if(x<0)
             angulo=180+Math.toDegrees(Math.atan2(yabs,xabs));
-        angulo=Math.toDegrees(Math.atan2(yabs,xabs));
+        else
+            angulo=Math.toDegrees(Math.atan2(yabs,xabs));
     }
     
     public double getAngulo(){
