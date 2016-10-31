@@ -8,12 +8,15 @@ package convexaenvolvente;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -29,10 +32,12 @@ public class Grafico extends javax.swing.JFrame {
     XYPlot plot;
     XYLineAndShapeRenderer renderer;
     private int l,m;
+    DefaultTableModel dtm;
     
     public Grafico() {
         dataset=new XYSeriesCollection();
         initComponents();
+        dtm= (DefaultTableModel) jTable1.getModel();
     }
 
     /**
@@ -44,7 +49,6 @@ public class Grafico extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -55,34 +59,22 @@ public class Grafico extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Plano", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Impact", 0, 12))); // NOI18N
-        jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jPanel1MousePressed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 262, Short.MAX_VALUE)
-        );
 
         jLabel1.setText("x");
 
+        jTextField1.setEnabled(false);
+
         jLabel2.setText("y");
 
+        jTextField2.setEnabled(false);
+
         jButton2.setText("Agregar");
+        jButton2.setEnabled(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -90,6 +82,7 @@ public class Grafico extends javax.swing.JFrame {
         });
 
         jButton1.setText("Run");
+        jButton1.setEnabled(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -107,7 +100,7 @@ public class Grafico extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("jButton3");
+        jButton3.setText("Set");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -127,20 +120,21 @@ public class Grafico extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
                     .addComponent(jTextField2))
-                .addGap(25, 25, 25)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                .addGap(27, 27, 27)
+                .addComponent(jButton2)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(36, 36, 36)
-                        .addComponent(jButton1))
+                        .addComponent(jButton1)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(151, 151, 151)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(96, Short.MAX_VALUE))
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,23 +152,46 @@ public class Grafico extends javax.swing.JFrame {
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2)
                     .addComponent(jButton1))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel1.setBackground(new java.awt.Color(255, 102, 51));
+        jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel1MousePressed(evt);
+            }
+        });
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "n", "x", "y"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)))
         );
 
         pack();
@@ -186,6 +203,8 @@ public class Grafico extends javax.swing.JFrame {
         stack.push(new Point(x,y));
         XYSeries tmp=new XYSeries("");
         tmp.add(x,y);
+        Object[] row={m, x,y};
+        dtm.addRow(row);
         nube[m++]=tmp;
         jTextField1.setText("");
         jTextField2.setText("");
@@ -195,21 +214,46 @@ public class Grafico extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Point[] points=new Point[stack.getTamano()];
+        Point[] result;
+        for (int i = 0; i < points.length; i++) 
+            points[i]=(Point) stack.pop();
+        ConvexaEnvolvente ce=new ConvexaEnvolvente();
+        result=ce.convexHull(points);
+        XYSeries[] resultSerie=new XYSeries[result.length];
+        for (int i = 0; i < resultSerie.length; i++) {
+            if((i+1)<resultSerie.length){
+                XYSeries tmp=new XYSeries("");
+                tmp.add(result[i].getX(), result[i].getY());
+                tmp.add(result[i+1].getX(), result[i+1].getY());
+                resultSerie[i]=tmp;
+            }
+        }
+        XYSeries lol=new XYSeries("");
+        lol.add(result[0].getX(), result[0].getY());
+        lol.add(result[result.length-1].getX(), result[result.length-1].getY());
+        resultSerie[resultSerie.length-1]=lol;
+        for(XYSeries resultSerie1:resultSerie)
+            dataset.addSeries(resultSerie1);
         for (XYSeries nube1 : nube)
             dataset.addSeries(nube1);
-        xylineChart=ChartFactory.createXYLineChart("Convex Hull","x","y", dataset, PlotOrientation.HORIZONTAL, true, true, false);
+        xylineChart=ChartFactory.createXYLineChart("Convex Hull","Y","X", dataset, PlotOrientation.HORIZONTAL, true, true, false);
         plot= xylineChart.getXYPlot();
         renderer=new XYLineAndShapeRenderer();
-        for (int i = 0; i < nube.length; i++) {
-            renderer.setSeriesPaint(i, Color.GREEN);
-            renderer.setSeriesStroke(i, new BasicStroke(4.0f));
+        for (int i = 0; i < resultSerie.length; i++) {
+            if(i>=resultSerie.length){
+                renderer.setSeriesPaint(i, Color.GREEN);
+                renderer.setSeriesStroke(i, new BasicStroke(4.0f));
+            }else{
+                renderer.setSeriesPaint(i, Color.BLUE);
+                renderer.setSeriesStroke(i, new BasicStroke(4.0f));
+            }
         }
         plot.setRenderer(renderer);
         ChartPanel p=new ChartPanel(xylineChart);
         jPanel1.removeAll();
         jPanel1.add(p, BorderLayout.CENTER);
         jPanel1.validate();
-        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyTyped
@@ -218,19 +262,24 @@ public class Grafico extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField3KeyTyped
 
     private void jTextField3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyReleased
-        l=Integer.parseInt(jTextField3.getText());
-        nube=new XYSeries[l];
+        
     }//GEN-LAST:event_jTextField3KeyReleased
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel1MousePressed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        l=Integer.parseInt(jTextField3.getText());
+        nube=new XYSeries[l];
+        jTextField3.setEnabled(false);
+        jTextField1.setEnabled(true);
+        jTextField2.setEnabled(true);
+        jButton1.setEnabled(true);
+        jButton2.setEnabled(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -276,6 +325,8 @@ public class Grafico extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
